@@ -16,69 +16,60 @@ _GitHub Codespaces と Visual Studio Code を使って開発しよう！_
 </header>
 
 <!--
-  <<< Author notes: Step 1 >>>
-  Choose 3-5 steps for your course.
-  The first step is always the hardest, so pick something easy!
-  Link to docs.github.com for further explanations.
-  Encourage users to open new tabs for steps!
+  <<< Author notes: Step 2 >>>
+  Start this step by acknowledging the previous step.
+  Define terms and link to docs.github.com.
 -->
 
-## ステップ 1: 最初の Codespace を作成してコードをプッシュしよう
+## ステップ 2: Codespace にカスタムイメージを追加しよう！
 
-_「GitHub Codespaces と Visual Studio Code で開発しよう」へようこそ！ :wave:_
+_素晴らしい！ :tada: 最初の Codespace を作成し、VS Code でコードをプッシュできましたね！_
 
-**ソフトウェア開発で Codespace を使うことの大きなメリットは何でしょうか？**  
-Codespace はクラウド上でホストされる開発環境です。プロジェクトに設定ファイルをコミットすることで（これを構成管理とも呼びます）、すべてのユーザーが同じ Codespace 構成を再現できるようになります。作成した各 Codespace は、GitHub によって Docker コンテナ内の仮想マシン上でホストされます。必要なリソースに応じてマシンタイプを選択できます。
+リポジトリの開発コンテナを設定することで、そのリポジトリで作成されるすべての Codespace に、プロジェクトに必要なツールやランタイムが揃った最適な開発環境を提供できます。
 
-GitHub には、開発チームが Codespace をカスタマイズし、最適な構成やパフォーマンスを実現するためのさまざまな機能があります。たとえば、以下のことができます：
+**開発コンテナ（dev container）とは？**  
+開発コンテナ（dev container）は、完全な開発環境を提供するよう特別に構成された Docker コンテナです。Codespace で作業するたびに、仮想マシン上の dev container を利用しています。
 
-- リポジトリから Codespace を作成する
-- Codespace からリポジトリへコードをプッシュする
-- VS Code でコードを開発する
-- カスタムイメージで Codespace をカスタマイズする
-- Codespace を管理する
+dev container ファイルは JSON 形式で、Codespace で動作するデフォルトイメージや VS Code の設定、カスタムコードの実行、ポートのフォワードなどをカスタマイズできます。
 
-GitHub Codespaces を使った開発を始めるには、テンプレートや任意のブランチ・コミットから Codespace を作成できます。テンプレートから作成する場合は、空のテンプレートや用途に合ったテンプレートを選べます。
+それでは、`devcontainer.json` ファイルを追加してカスタムイメージを指定しましょう。
 
-### :keyboard: アクティビティ: Codespace を起動しよう
+### :keyboard: アクティビティ: .devcontainer.json ファイルを追加して Codespace をカスタマイズしよう
 
-**これからの作業は別のブラウザタブで進めることをおすすめします。この手順を参照しやすくなります。**
+1. リポジトリの **Code** タブに戻り、**Add file** ドロップダウンボタンをクリックし、`Create new file` を選択します。
+1. ファイル名入力欄に、次の内容を入力または貼り付けます。
 
-1. リポジトリのトップページを開きます。
-1. ページ中央にある緑色の **Code** ボタンをクリックします。
-1. ポップアップで **Codespaces** タブを選択し、**Create codespace on main** ボタンをクリックします。
-
-   > Codespace の起動には約2分かかります。  
-   > **注**: バックグラウンドで仮想マシンが起動しています。
-
-1. Codespace が起動したことを確認します。ブラウザには VS Code のウェブエディタとターミナルが表示されているはずです。例：
-   ![codespace1](https://user-images.githubusercontent.com/26442605/207355196-71aab43f-35a9-495b-bcfe-bf3773c2f1b3.png)
-
-### :keyboard: アクティビティ: Codespace からリポジトリへコードをプッシュしよう
-
-1. Codespace 内の VS Code エクスプローラーで `index.html` ファイルを選択します。
-1. **h1** ヘッダーを以下の内容に置き換えます：
-
-   ```html
-   <h1>Hello from the codespace!</h1>
+   ```
+   .devcontainer/devcontainer.json
    ```
 
-1. ファイルを保存します。  
-   > **注**: ファイルは自動保存されるはずです。
-1. VS Code のターミナルで、次のコミットメッセージを入力してファイルの変更をコミットします：
+1. 新しい **.devcontainer/devcontainer.json** ファイルの本文に、次の内容を追加します。
 
-   ```shell
-   git commit -a -m "Adding hello from the codespace!"
+   ```jsonc
+   {
+     // この構成の名前
+     "name": "Codespace for Skills!",
+     // ベースとなる codespace イメージを使用
+     "image": "mcr.microsoft.com/vscode/devcontainers/universal:latest",
+
+     "remoteUser": "codespace",
+     "overrideCommand": false
+   }
    ```
 
-1. 変更をリポジトリにプッシュします。VS Code のターミナルで次を入力：
+1. **Commit changes** をクリックし、**Commit changes directly to the `main` branch** を選択します。
+1. リポジトリの **Code** タブに戻り、新しい Codespace を作成します。
+1. ページ中央の緑色の **Code** ボタンをクリックします。
+1. ポップアップで **Codespaces** タブをクリックします。
+1. **Create codespace on main** ボタン、またはタブの `+` アイコンをクリックします。これで main ブランチ上に新しい Codespace が作成されます。（他の Codespace もここに表示されます）
 
-   ```shell
-   git push
-   ```
+   > Codespace の起動には約 **2分** かかります。
 
-1. これでコードがリポジトリにプッシュされました！
-1. リポジトリのホームページに戻り、`index.html` を開いて新しいコードが反映されていることを確認します。
+1. 先ほどと同様に、新しい Codespace が起動していることを確認します。
+
+   使用されているイメージは GitHub Codespaces で提供されるデフォルトイメージです。Python、Node.js、Docker などのランタイムやツールが含まれています。全リストはこちら: https://aka.ms/ghcs-default-image  
+   開発チームは必要な前提条件がインストールされた任意のカスタムイメージを利用できます。詳細は [codespace image](https://aka.ms/configure-codespace) を参照してください。
+
 1. 約20秒待ってからこのページ（手順を見ているページ）をリロードしてください。[GitHub Actions](https://docs.github.com/ja/actions) により自動的に次のステップに進みます。
 
 <footer>
