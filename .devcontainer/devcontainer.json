@@ -1,0 +1,9 @@
+{
+  // この構成の名前
+  "name": "Codespace for Skills!",
+  // ベースとなる codespace イメージを使用
+  "image": "mcr.microsoft.com/vscode/devcontainers/universal:latest",
+
+  "remoteUser": "codespace",
+  "overrideCommand": false
+}
