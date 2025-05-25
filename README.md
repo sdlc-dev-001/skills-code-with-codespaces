@@ -16,60 +16,81 @@ _GitHub Codespaces と Visual Studio Code を使って開発しよう！_
 </header>
 
 <!--
-  <<< Author notes: Step 2 >>>
+  <<< Author notes: Step 3 >>>
   Start this step by acknowledging the previous step.
   Define terms and link to docs.github.com.
 -->
 
-## ステップ 2: Codespace にカスタムイメージを追加しよう！
+## ステップ 3: Codespace をカスタマイズしよう！
 
-_素晴らしい！ :tada: 最初の Codespace を作成し、VS Code でコードをプッシュできましたね！_
+_素晴らしい！ :tada: カスタムイメージで Codespace を作成できましたね！_
 
-リポジトリの開発コンテナを設定することで、そのリポジトリで作成されるすべての Codespace に、プロジェクトに必要なツールやランタイムが揃った最適な開発環境を提供できます。
+VS Code の拡張機能を追加したり、機能を追加したり、ホスト要件を設定したりすることで、Codespace をさらにカスタマイズできます。
 
-**開発コンテナ（dev container）とは？**  
-開発コンテナ（dev container）は、完全な開発環境を提供するよう特別に構成された Docker コンテナです。Codespace で作業するたびに、仮想マシン上の dev container を利用しています。
+`devcontainer.json` ファイルでいくつかの設定をカスタマイズしてみましょう！
 
-dev container ファイルは JSON 形式で、Codespace で動作するデフォルトイメージや VS Code の設定、カスタムコードの実行、ポートのフォワードなどをカスタマイズできます。
+### :keyboard: アクティビティ: `devcontainer` ファイルにカスタマイズを追加しよう
 
-それでは、`devcontainer.json` ファイルを追加してカスタムイメージを指定しましょう。
-
-### :keyboard: アクティビティ: .devcontainer.json ファイルを追加して Codespace をカスタマイズしよう
-
-1. リポジトリの **Code** タブに戻り、**Add file** ドロップダウンボタンをクリックし、`Create new file` を選択します。
-1. ファイル名入力欄に、次の内容を入力または貼り付けます。
-
-   ```
-   .devcontainer/devcontainer.json
-   ```
-
-1. 新しい **.devcontainer/devcontainer.json** ファイルの本文に、次の内容を追加します。
+1. `.devcontainer/devcontainer.json` ファイルに移動します。
+1. ファイルの本体で最後の `}` の直前に、以下のカスタマイズを追加します。
 
    ```jsonc
-   {
-     // この構成の名前
-     "name": "Codespace for Skills!",
-     // ベースとなる codespace イメージを使用
-     "image": "mcr.microsoft.com/vscode/devcontainers/universal:latest",
-
-     "remoteUser": "codespace",
-     "overrideCommand": false
-   }
+    ,
+    // コンテナ作成時にインストールしたい拡張機能のIDを追加します
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "GitHub.copilot"
+            ]
+        },
+        "codespaces": {
+            "openFiles": [
+                "codespace.md"
+            ]
+        }
+    }
    ```
 
 1. **Commit changes** をクリックし、**Commit changes directly to the `main` branch** を選択します。
-1. リポジトリの **Code** タブに戻り、新しい Codespace を作成します。
-1. ページ中央の緑色の **Code** ボタンをクリックします。
+1. リポジトリのトップページに移動し、新しい Codespace を作成します。
+1. ページ中央の **Code** ボタンをクリックします。
 1. ポップアップで **Codespaces** タブをクリックします。
-1. **Create codespace on main** ボタン、またはタブの `+` アイコンをクリックします。これで main ブランチ上に新しい Codespace が作成されます。（他の Codespace もここに表示されます）
+1. アクティブな Codespace の数が最大（通常は2）に達していないことを確認します。詳細は [Codespace のライフサイクルについて](https://docs.github.com/ja/codespaces/getting-started/understanding-the-codespace-lifecycle) を参照してください。
+
+   > **ヒント**: アクティブな Codespace を停止するには、**<span>&#x25cf;</span>Active** の横の **•••** をクリックし、メニューから **Stop codespace** を選択します。
+   
+1. **Create codespace on main** ボタンをクリックします。
 
    > Codespace の起動には約 **2分** かかります。
 
-1. 先ほどと同様に、新しい Codespace が起動していることを確認します。
+1. 先ほどと同様に Codespace が起動していることを確認します。
+1. VS Code エディタに `codespace.md` ファイルが表示されているはずです。
+1. VS Code の拡張機能リストに `copilot` 拡張機能が表示されているはずです。
 
-   使用されているイメージは GitHub Codespaces で提供されるデフォルトイメージです。Python、Node.js、Docker などのランタイムやツールが含まれています。全リストはこちら: https://aka.ms/ghcs-default-image  
-   開発チームは必要な前提条件がインストールされた任意のカスタムイメージを利用できます。詳細は [codespace image](https://aka.ms/configure-codespace) を参照してください。
+   これにより、VS Code の拡張機能が追加され、Codespace 起動時にファイルが自動で開かれます。
 
+次に、Codespace 作成時に自動でコードを実行する設定を追加しましょう！
+
+### :keyboard: アクティビティ: Codespace 作成時にコードを実行しよう
+
+1. `.devcontainer/devcontainer.json` ファイルを編集します。
+1. ファイルの本体で最後の `}` の直前に、以下の postCreateCommand を追加します。
+
+   ```jsonc
+    ,
+    "postCreateCommand": "echo '# Writing code upon codespace creation!'  >> codespace.md"
+   ```
+
+1. **Commit changes** をクリックし、**Commit changes directly to the `main` branch** を選択します。
+1. リポジトリのトップページに移動し、新しい Codespace を作成します。
+1. ページ中央の **Code** ボタンをクリックします。
+1. ポップアップで **Codespaces** タブをクリックします。
+1. **Create codespace on main** ボタンをクリックします。
+
+   > Codespace の起動には約 **2分** かかります。
+
+1. 先ほどと同様に Codespace が起動していることを確認します。
+1. `codespace.md` ファイルに `Writing code upon codespace creation!` というテキストが追加されていることを確認します。
 1. 約20秒待ってからこのページ（手順を見ているページ）をリロードしてください。[GitHub Actions](https://docs.github.com/ja/actions) により自動的に次のステップに進みます。
 
 <footer>
